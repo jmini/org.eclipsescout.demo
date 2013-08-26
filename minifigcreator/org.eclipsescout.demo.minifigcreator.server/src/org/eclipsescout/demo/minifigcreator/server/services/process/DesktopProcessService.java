@@ -68,6 +68,16 @@ public class DesktopProcessService extends AbstractService implements IDesktopPr
 
   @Override
   public DesktopFormData store(DesktopFormData formData) throws ProcessingException {
+
+    //Business logic on the server (VetoException on error):
+    if (formData.getName().getValue() == null || formData.getName().getValue().toLowerCase().matches("x+")) {
+      throw new VetoException(TEXTS.get("ThisIsNotAValidName"));
+    }
+
+    //Rest of the persistence code
+
+    //...
+
     storePart(formData.getHead());
     storePart(formData.getTorso());
     storePart(formData.getLegs());
